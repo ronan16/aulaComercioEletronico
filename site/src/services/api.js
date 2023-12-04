@@ -15,6 +15,7 @@ const api = {
             throw new Error('Erro ao gravar o produto');
         }
     },
+    
 
     async getProdutos() {
         const resposta = await fetch(`${API_URL}/produtos/listar-produtos`);
@@ -23,6 +24,15 @@ const api = {
         }
         return resposta.json();
     },
+
+    async buscarProdutoPorId(id) {
+        const resposta = await fetch(`${API_URL}/produtos/listar-produtos/${id}`);
+        if (!resposta.ok) {
+            throw new Error('Erro ao carregar os produtos');
+        }
+        return resposta.json();
+    },
+
 
     async excluirProduto(id) {
         const resposta = await fetch(`${API_URL}/produtos/excluir-produto/${id}`, {
@@ -34,6 +44,21 @@ const api = {
     },
 
     // Adicione aqui outras chamadas de API conforme necessário
+
+    
+    async atualizarProduto(dadosDoFormulario) {
+        const resposta = await fetch(`${API_URL}/produtos/atualizar-produto`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dadosDoFormulario),
+        });
+        if (!resposta.ok) {
+            throw new Error('Erro ao gravar o produto');
+        }
+    },
+
 };
 
 export default api;

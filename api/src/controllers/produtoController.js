@@ -38,6 +38,18 @@ const excluirProduto = (req, res) => {
   });
 };
 
+const listarProdutoId = (req, res) => {
+  const { id } = req.params;
+
+  ProdutoModel.listarProdutoId(id, (err, resultado) => {
+    if (err) {
+      console.error('Erro ao Buscar o produto:', err);
+      return res.status(500).json({ error: 'Erro ao Buscar o produto' });
+    }
+    res.status(200).json({ message: 'Produto encontrado', resultado });
+  });
+};
+
 const listarProdutos = (req, res) => {
   ProdutoModel.listarProdutos((err, resultados) => {
     if (err) {
@@ -48,5 +60,5 @@ const listarProdutos = (req, res) => {
   });
 };
 
-module.exports = { salvarProduto, atualizarProduto, excluirProduto, listarProdutos };
+module.exports = { salvarProduto, atualizarProduto, excluirProduto, listarProdutos, listarProdutoId };
 

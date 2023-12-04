@@ -7,6 +7,7 @@ import Tabela from '../../Components/Tabela';
 const CadastroProduto = () => {
   const [mensagem, setMensagem] = useState('');
   const [produtos, setProdutos] = useState([]);
+  const [itemSelecionado, setItemSelecionado] = useState(null);
 
 
   const listaForm = [
@@ -29,6 +30,18 @@ const CadastroProduto = () => {
       setMensagem('Erro ao salvar o produto');
     }
   };
+
+  const editarFormulario = async (dadosDoFormulario) => {
+    try {
+      await api.atualizarProduto(dadosDoFormulario)
+
+      setMensagem('Produto editado com sucesso');
+    } catch (error) {
+      console.error('Erro ao editar o produto:', error.message);
+      setMensagem('Erro ao editar o produto');
+    }
+  };
+
 
   useEffect(() => {
     const carregarProdutos = async () => {
@@ -53,17 +66,32 @@ const CadastroProduto = () => {
     }
   };
 
+  const editarProduto = async (id) => {
+    try {
+      const produtoSelecionado = await api.buscarProdutoPorId(id);
+      setItemSelecionado(produtoSelecionado);
+      console.log(itemSelecionado)
+    } catch (error) {
+      console.error('Erro ao carregar dados do produto para edição:', error.message);
+    }
+  };
+  
+
   return (
     <div className="classeCSS">
       <h1>Cadastro de Produto</h1>
-      <Formulario campos={listaForm} onSubmit={enviarFormulario} />
+      <Formulario 
+        campos={listaForm} 
+        onSubmit={enviarFormulario} 
+        itemSelecionado={itemSelecionado}
+        onUpdate={editarFormulario}/>
       {mensagem && <p>{mensagem}</p>}
    
     <h2>Produtos Cadastrados</h2>
       <Tabela
         dados={produtos}
         onExcluirItem={excluirProduto}
-        onEditarItem={(id) => console.log(`Editar produto com ID ${id}`)}
+        onEditarItem={editarProduto}
         colunas={colunasProdutos}
       />
     </div>

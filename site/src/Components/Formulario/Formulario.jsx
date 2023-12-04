@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Formulario.css';
 
-const Formulario = ({ campos, onSubmit }) => {
+const Formulario = ({ campos, onSubmit, itemSelecionado, onUpdate }) => {
   const [dadosDoFormulario, setDadosDoFormulario] = useState({});
 
   const eventoChange = (campo, valor) => {
@@ -12,10 +12,21 @@ const Formulario = ({ campos, onSubmit }) => {
   };
 
   const eventoSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(dadosDoFormulario);
+    //e.preventDefault();
+    if(itemSelecionado){
+      onUpdate(dadosDoFormulario)
+    }else{
+      onSubmit(dadosDoFormulario);
+    }
   };
 
+  useEffect(() => {
+    if (itemSelecionado) {
+      setDadosDoFormulario(itemSelecionado.resultado[0]);
+      console.log(dadosDoFormulario)
+    }
+  }, [itemSelecionado]);
+  
   return (
     <form onSubmit={eventoSubmit}>
       {campos.map((campo) => (

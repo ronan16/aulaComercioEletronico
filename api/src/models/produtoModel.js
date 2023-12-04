@@ -49,6 +49,16 @@ class ProdutoModel {
     });
   }
   
+  static listarProdutoId(id, callback) {
+    const query = 'SELECT * FROM produto WHERE id=?';
+    connection.query(query, [id], (err, results) => {
+      if (err) {
+        return callback(err, null);
+      }
+      callback(null, results);
+    });
+  }
+
   static listarProdutos(callback) {
     const query = 'SELECT * FROM produto';
     connection.query(query, (err, results) => {

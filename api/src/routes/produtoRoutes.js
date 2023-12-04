@@ -7,5 +7,7 @@ router.post('/salvar-produto', produtoController.salvarProduto);
 router.put('/atualizar-produto', produtoController.atualizarProduto);
 router.delete('/excluir-produto/:id', produtoController.excluirProduto);
 router.get('/listar-produtos', produtoController.listarProdutos);
+router.get('/listar-produtos/:id', produtoController.listarProdutoId);
+
 
 module.exports = router;
